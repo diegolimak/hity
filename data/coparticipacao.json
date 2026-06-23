@@ -1,0 +1,9 @@
+{
+  "consulta": "R$ 70,00",
+  "consultaEmergencia": "R$ 130,00",
+  "exameSimples": "R$ 65,00",
+  "exameEspecial": "R$ 160,00",
+  "procedimentoAmb": "R$ 180,00",
+  "terapia": "R$ 65,00",
+  "internacao": "R$ 500,00 por evento"
+}

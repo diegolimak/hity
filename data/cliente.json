@@ -1,0 +1,7 @@
+{
+  "empresa": "Hyti",
+  "operadora": "Bradesco Saúde",
+  "logo": "/logos/cliente.png",
+  "mensagem": "Reunimos todas as informações importantes em um único lugar para facilitar sua consulta sempre que precisar.",
+  "estados": ["DF", "SP", "MG"]
+}

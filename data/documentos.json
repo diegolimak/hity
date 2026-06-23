@@ -1,0 +1,38 @@
+[
+  {
+    "nome": "Rede Credenciada - Distrito Federal",
+    "descricao": "Lista completa de hospitais, clínicas e laboratórios no DF",
+    "arquivo": "/documentos/BRADESCO - DF - REDE CREDENCIADA.pdf",
+    "icone": "map-pin"
+  },
+  {
+    "nome": "Rede Credenciada - São Paulo",
+    "descricao": "Lista completa de hospitais, clínicas e laboratórios em SP",
+    "arquivo": "/documentos/BRADESCO - SP - REDE CREDENCIADA.pdf",
+    "icone": "map-pin"
+  },
+  {
+    "nome": "Rede Credenciada - Minas Gerais",
+    "descricao": "Lista completa de hospitais, clínicas e laboratórios em MG",
+    "arquivo": "/documentos/BRADESCO - MG - REDE CREDENCIADA.pdf",
+    "icone": "map-pin"
+  },
+  {
+    "nome": "Manual do Beneficiário",
+    "descricao": "Guia completo sobre seu plano de saúde Bradesco",
+    "arquivo": "/documentos/manual-beneficiario.pdf",
+    "icone": "book-open"
+  },
+  {
+    "nome": "Tabela de Coparticipação",
+    "descricao": "Valores de coparticipação por tipo de atendimento",
+    "arquivo": "/documentos/tabela-coparticipacao.pdf",
+    "icone": "file-text"
+  },
+  {
+    "nome": "Guia de Reembolso",
+    "descricao": "Passo a passo para solicitar reembolso",
+    "arquivo": "/documentos/guia-reembolso.pdf",
+    "icone": "receipt"
+  }
+]

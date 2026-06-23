@@ -1,0 +1,55 @@
+[
+  {
+    "grupo": "Amor à Vida Corretora",
+    "contatos": [
+      {
+        "titulo": "Rodrigo Veras",
+        "descricao": "Consultor responsável pela sua empresa",
+        "whatsapp": "5561999647684",
+        "telefone": "(61) 9 9964-7684",
+        "icone": "user"
+      },
+      {
+        "titulo": "WhatsApp",
+        "descricao": "Atendimento rápido pelo WhatsApp",
+        "whatsapp": "5561999647684",
+        "icone": "message-circle"
+      },
+      {
+        "titulo": "E-mail",
+        "descricao": "Retorno em até 24 horas",
+        "email": "contato@amoravida.com.br",
+        "icone": "mail"
+      }
+    ]
+  },
+  {
+    "grupo": "Bradesco Saúde",
+    "contatos": [
+      {
+        "titulo": "Central de Relacionamento",
+        "descricao": "Atendimento 24 horas, 7 dias por semana",
+        "telefone": "4004 2700 / 0800 701 2700",
+        "icone": "headphones"
+      },
+      {
+        "titulo": "SAC",
+        "descricao": "Serviço de Atendimento ao Consumidor",
+        "telefone": "0800 727 9966",
+        "icone": "users"
+      },
+      {
+        "titulo": "SAC — Deficiência Auditiva ou de Fala",
+        "descricao": "Atendimento para pessoas com deficiência auditiva ou de fala",
+        "telefone": "0800 701 2708",
+        "icone": "accessibility"
+      },
+      {
+        "titulo": "Ouvidoria",
+        "descricao": "Canal exclusivo para reclamações e sugestões",
+        "telefone": "0800 701 7000",
+        "icone": "megaphone"
+      }
+    ]
+  }
+]

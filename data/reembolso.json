@@ -1,0 +1,9 @@
+{
+  "itens": [
+    { "tipo": "Consulta médica", "valor": "R$ 76,83" }
+  ],
+  "observacoes": [
+    "Reembolso disponível apenas para consultas médicas.",
+    "Não há reembolso para terapias."
+  ]
+}

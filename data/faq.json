@@ -1,0 +1,38 @@
+[
+  {
+    "pergunta": "Como acesso minha carteirinha digital?",
+    "resposta": "Sua carteirinha digital está disponível no aplicativo Bradesco Saúde. Baixe o app na App Store ou Google Play, faça o cadastro com seu CPF e número de matrícula e acesse a carteirinha na aba 'Meus Documentos'."
+  },
+  {
+    "pergunta": "Como emitir a segunda via da carteirinha?",
+    "resposta": "Você pode solicitar a segunda via pelo aplicativo Bradesco Saúde, pelo site bradescosaude.com.br, ou ligando para a Central de Atendimento no 0800 722 4848. A carteirinha física é entregue em até 10 dias úteis."
+  },
+  {
+    "pergunta": "Como solicitar reembolso de consultas?",
+    "resposta": "Para solicitar reembolso, acesse o aplicativo Bradesco Saúde ou o portal do beneficiário, vá em 'Reembolso', anexe a nota fiscal/recibo e o relatório médico. O prazo de análise é de até 30 dias corridos após o protocolo."
+  },
+  {
+    "pergunta": "Como consultar a rede credenciada?",
+    "resposta": "Você pode consultar a rede credenciada diretamente neste portal, filtrando por estado e pesquisando pelo nome do estabelecimento. Também é possível consultar pelo aplicativo Bradesco Saúde ou pelo site bradescosaude.com.br."
+  },
+  {
+    "pergunta": "Como funciona a coparticipação?",
+    "resposta": "A coparticipação é um valor pago por você no momento da utilização de determinados serviços. Os valores variam conforme o tipo de atendimento: consultas eletivas, exames, pronto-socorro e internações possuem valores distintos. Consulte a tabela de coparticipação neste portal."
+  },
+  {
+    "pergunta": "Posso incluir dependentes no plano?",
+    "resposta": "Sim! Você pode incluir cônjuge ou companheiro(a), filhos e filhas (até 24 anos para universitários), entre outros dependentes previstos em lei. Entre em contato com a corretora Amor à Vida para iniciar o processo de inclusão."
+  },
+  {
+    "pergunta": "Qual o prazo de carência para uso do plano?",
+    "resposta": "Os prazos de carência variam conforme o tipo de atendimento: urgências e emergências têm carência de 24 horas; consultas e exames simples, 30 dias; cirurgias eletivas, 180 dias; partos, 300 dias. A migração de plano pode ter carências reduzidas — consulte a Amor à Vida."
+  },
+  {
+    "pergunta": "Como acionar o pronto-socorro?",
+    "resposta": "Em casos de urgência e emergência, você pode ir diretamente a qualquer hospital credenciado da rede Bradesco Saúde apresentando sua carteirinha (física ou digital). Não é necessário autorização prévia para atendimentos de emergência."
+  },
+  {
+    "pergunta": "Como é feita a autorização de exames e procedimentos?",
+    "resposta": "A maioria dos exames de rotina e consultas não necessita de autorização prévia. Para procedimentos cirúrgicos e exames de alta complexidade, o médico deve solicitar a autorização pelo aplicativo Bradesco Saúde ou pelo telefone 0800 722 4848."
+  }
+]

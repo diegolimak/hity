@@ -1,0 +1,36 @@
+[
+  {
+    "id": "nacional-ii",
+    "nome": "Nacional II",
+    "acomodacao": "Enfermaria",
+    "faixas": [
+      { "faixa": "0 a 18 anos",  "semIOF": "R$ 372,55",   "comIOF": "R$ 381,42"   },
+      { "faixa": "19 a 23 anos", "semIOF": "R$ 439,61",   "comIOF": "R$ 450,07"   },
+      { "faixa": "24 a 28 anos", "semIOF": "R$ 531,93",   "comIOF": "R$ 544,59"   },
+      { "faixa": "29 a 33 anos", "semIOF": "R$ 638,32",   "comIOF": "R$ 653,51"   },
+      { "faixa": "34 a 38 anos", "semIOF": "R$ 727,68",   "comIOF": "R$ 745,00"   },
+      { "faixa": "39 a 43 anos", "semIOF": "R$ 749,51",   "comIOF": "R$ 767,35"   },
+      { "faixa": "44 a 48 anos", "semIOF": "R$ 912,57",   "comIOF": "R$ 934,29"   },
+      { "faixa": "49 a 53 anos", "semIOF": "R$ 1.073,36", "comIOF": "R$ 1.098,91" },
+      { "faixa": "54 a 58 anos", "semIOF": "R$ 1.277,30", "comIOF": "R$ 1.307,70" },
+      { "faixa": "59 anos +",    "semIOF": "R$ 2.235,15", "comIOF": "R$ 2.288,35" }
+    ]
+  },
+  {
+    "id": "nacional-iii",
+    "nome": "Nacional III",
+    "acomodacao": "Quarto",
+    "faixas": [
+      { "faixa": "0 a 18 anos",  "semIOF": "R$ 390,27",   "comIOF": "R$ 399,56"   },
+      { "faixa": "19 a 23 anos", "semIOF": "R$ 460,52",   "comIOF": "R$ 471,48"   },
+      { "faixa": "24 a 28 anos", "semIOF": "R$ 557,22",   "comIOF": "R$ 570,48"   },
+      { "faixa": "29 a 33 anos", "semIOF": "R$ 668,67",   "comIOF": "R$ 684,58"   },
+      { "faixa": "34 a 38 anos", "semIOF": "R$ 762,28",   "comIOF": "R$ 780,42"   },
+      { "faixa": "39 a 43 anos", "semIOF": "R$ 785,15",   "comIOF": "R$ 803,84"   },
+      { "faixa": "44 a 48 anos", "semIOF": "R$ 955,96",   "comIOF": "R$ 978,71"   },
+      { "faixa": "49 a 53 anos", "semIOF": "R$ 1.124,40", "comIOF": "R$ 1.151,16" },
+      { "faixa": "54 a 58 anos", "semIOF": "R$ 1.338,04", "comIOF": "R$ 1.369,89" },
+      { "faixa": "59 anos +",    "semIOF": "R$ 2.341,43", "comIOF": "R$ 2.397,16" }
+    ]
+  }
+]
