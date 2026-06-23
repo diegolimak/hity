@@ -16,7 +16,7 @@ export default function Header({ cliente }: HeaderProps) {
             <div className="flex items-center">
               <div className="relative h-8 w-32 dark:hidden">
                 <Image
-                  src="/logos/amoravida.png"
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/logos/amoravida.png`}
                   alt="Amor à Vida Corretora"
                   fill
                   className="object-contain object-left"
@@ -24,7 +24,7 @@ export default function Header({ cliente }: HeaderProps) {
               </div>
               <div className="relative h-8 w-32 hidden dark:block">
                 <Image
-                  src="/logos/amoravida-branca.png"
+                  src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/logos/amoravida-branca.png`}
                   alt="Amor à Vida Corretora"
                   fill
                   className="object-contain object-left"
@@ -39,7 +39,7 @@ export default function Header({ cliente }: HeaderProps) {
               <div className="bg-[#0d1b3e] rounded-lg px-3 py-1">
                 <div className="relative h-7 w-20">
                   <Image
-                    src="/logos/cliente-branca.png"
+                    src={`${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/logos/cliente-branca.png`}
                     alt={`Logo ${cliente.empresa}`}
                     fill
                     className="object-contain"
