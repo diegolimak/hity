@@ -365,11 +365,10 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
             <div className="inline-flex flex-col items-center gap-2">
               <div className="relative w-20 h-20 rounded-full overflow-hidden bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-1">
                 {!fotoOk && <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 select-none">RV</span>}
-                <Image
+                <img
                   src={RODRIGO.foto}
                   alt={RODRIGO.nome}
-                  fill
-                  className="object-cover z-10"
+                  className="absolute inset-0 w-full h-full object-cover"
                   onLoad={() => setFotoOk(true)}
                   onError={() => setFotoOk(false)}
                 />
