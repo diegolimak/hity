@@ -20,7 +20,7 @@ const RODRIGO = {
   cargo: 'Consultor Amor à Vida',
   telefone: '(61) 9 9964-7684',
   whatsapp: '5561999647684',
-  foto: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/logos/rodrigo.png`,
+  foto: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/logos/Rodrigo.png`,
 }
 
 // Legenda dos tipos de atendimento
