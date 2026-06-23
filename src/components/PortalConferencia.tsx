@@ -47,6 +47,7 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
   const [idadeStr, setIdadeStr]     = useState('')
   const [estado, setEstado]         = useState<string | null>(null)
   const [busca, setBusca]           = useState('')
+  const [fotoOk, setFotoOk]         = useState(false)
 
   const produto   = produtos.find(p => p.id === produtoId) ?? null
   const idadeNum  = parseInt(idadeStr, 10)
@@ -363,14 +364,15 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
             <p className="text-sm font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-6">Ficou com alguma dúvida?</p>
             <div className="inline-flex flex-col items-center gap-2">
               <div className="relative w-20 h-20 rounded-full overflow-hidden bg-blue-100 dark:bg-blue-900/40 flex items-center justify-center mb-1">
+                {!fotoOk && <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 select-none">RV</span>}
                 <Image
                   src={RODRIGO.foto}
                   alt={RODRIGO.nome}
                   fill
-                  className="object-cover"
-                  onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none' }}
+                  className="object-cover z-10"
+                  onLoad={() => setFotoOk(true)}
+                  onError={() => setFotoOk(false)}
                 />
-                <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 select-none">RV</span>
               </div>
               <p className="font-bold text-xl text-gray-900 dark:text-white">{RODRIGO.nome}</p>
               <p className="text-gray-500 dark:text-gray-400 text-sm">{RODRIGO.cargo}</p>
