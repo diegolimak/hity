@@ -367,8 +367,9 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
                 {!fotoOk && <span className="text-2xl font-bold text-blue-600 dark:text-blue-400 select-none">RV</span>}
                 <img
                   src={RODRIGO.foto}
-                  alt={RODRIGO.nome}
+                  alt=""
                   className="absolute inset-0 w-full h-full object-cover"
+                  style={{ display: fotoOk ? 'block' : 'none' }}
                   onLoad={() => setFotoOk(true)}
                   onError={() => setFotoOk(false)}
                 />
