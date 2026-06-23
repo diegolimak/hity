@@ -11,7 +11,7 @@ const geist = Geist({
 export const metadata: Metadata = {
   title: 'Portal do Beneficiário — Bradesco Saúde',
   description: 'Portal de boas-vindas ao plano de saúde. Rede credenciada, coparticipação, reembolso e muito mais.',
-  icons: { icon: '/hity/favicon.svg' },
+  icons: { icon: '/hyti-comunicado/favicon.svg' },
 }
 
 export default function RootLayout({
