@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { Phone, MessageCircle, Search, Building2, MapPin, AlertCircle, CheckCircle2, AlertTriangle, User } from 'lucide-react'
+import { Phone, MessageCircle, Search, Building2, MapPin, AlertCircle, CheckCircle2, AlertTriangle, User, Download } from 'lucide-react'
 import type { Cliente, Produto, FaixaPreco, Coparticipacao, Reembolso, Hospital, Comunicado } from '@/types'
 
 interface Props {
@@ -15,15 +15,22 @@ interface Props {
   hospitais: Hospital[]
 }
 
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? ''
+
 const RODRIGO = {
   nome: 'Rodrigo Veras',
   cargo: 'Consultor Amor à Vida',
   telefone: '(61) 9 9964-7684',
   whatsapp: '5561999647684',
-  foto: `${process.env.NEXT_PUBLIC_BASE_PATH ?? ''}/logos/rodrigo.png`,
+  foto: `${BASE}/logos/rodrigo.png`,
 }
 
-// Legenda dos tipos de atendimento
+const REDES_PDF: Record<string, string> = {
+  DF: `${BASE}/documentos/BRADESCO - DF - REDE CREDENCIADA.pdf`,
+  SP: `${BASE}/documentos/BRADESCO - SP - REDE CREDENCIADA.pdf`,
+  MG: `${BASE}/documentos/BRADESCO - MG - REDE CREDENCIADA.pdf`,
+}
+
 const TIPO_INFO: Record<string, { label: string; cor: string }> = {
   'H':    { label: 'Hospital',       cor: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300' },
   'P.S':  { label: 'Pronto-Socorro', cor: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300' },
@@ -32,7 +39,6 @@ const TIPO_INFO: Record<string, { label: string; cor: string }> = {
   'HDIA': { label: 'Hospital Dia',   cor: 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300' },
 }
 
-// Mapeia idade → faixa etária
 function getFaixaPorIdade(idade: number, faixas: FaixaPreco[]): FaixaPreco | null {
   const limites = [[0,18],[19,23],[24,28],[29,33],[34,38],[39,43],[44,48],[49,53],[54,58],[59,999]]
   const idx = limites.findIndex(([min, max]) => idade >= min && idade <= max)
@@ -43,23 +49,22 @@ const W = 'py-10 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto'
 const DIV = 'border-t border-gray-200 dark:border-gray-800'
 
 export default function PortalConferencia({ cliente, comunicado, produtos, coparticipacao, reembolso, hospitais }: Props) {
-  const [produtoId, setProdutoId]   = useState<string | null>(null)
-  const [idadeStr, setIdadeStr]     = useState('')
-  const [estado, setEstado]         = useState<string | null>(null)
-  const [busca, setBusca]           = useState('')
-  const [fotoOk, setFotoOk]         = useState(false)
+  const [produtoId, setProdutoId] = useState<string | null>(null)
+  const [idadeStr, setIdadeStr]   = useState('')
+  const [busca, setBusca]         = useState('')
+  const [fotoOk, setFotoOk]       = useState(false)
 
-  const produto   = produtos.find(p => p.id === produtoId) ?? null
-  const idadeNum  = parseInt(idadeStr, 10)
-  const faixaSel  = produto && !isNaN(idadeNum) && idadeNum >= 0 ? getFaixaPorIdade(idadeNum, produto.faixas) : null
+  const produto  = produtos.find(p => p.id === produtoId) ?? null
+  const idadeNum = parseInt(idadeStr, 10)
+  const faixaSel = produto && !isNaN(idadeNum) && idadeNum >= 0 ? getFaixaPorIdade(idadeNum, produto.faixas) : null
 
   const redesFiltradas = useMemo(() => {
-    if (!estado) return []
     const b = busca.toLowerCase()
-    return hospitais
-      .filter(h => h.estado === estado)
-      .filter(h => !b || h.nome.toLowerCase().includes(b) || h.cidade.toLowerCase().includes(b))
-  }, [hospitais, estado, busca])
+    if (!b) return hospitais
+    return hospitais.filter(h => h.nome.toLowerCase().includes(b) || h.cidade.toLowerCase().includes(b))
+  }, [hospitais, busca])
+
+  const estados = cliente.estados as string[]
 
   const copartItens = [
     { label: 'Consultas eletivas',          valor: coparticipacao.consulta },
@@ -100,13 +105,46 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
         </div>
       </div>
 
+      {/* ── Logos (Hyti primeiro, depois Amor à Vida) ── */}
+      <div className="px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto pt-6 pb-2">
+        <div className="flex items-center justify-center gap-6 flex-wrap">
+          <div className="bg-[#0d1b3e] rounded-lg px-4 py-2">
+            <div className="relative h-8 w-24">
+              <Image
+                src={`${BASE}/logos/cliente-branca.png`}
+                alt={`Logo ${cliente.empresa}`}
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+          <div className="w-px h-8 bg-gray-200 dark:bg-gray-700" />
+          <div className="relative h-8 w-36 dark:hidden">
+            <Image
+              src={`${BASE}/logos/amoravida.png`}
+              alt="Amor à Vida Corretora"
+              fill
+              className="object-contain object-left"
+            />
+          </div>
+          <div className="relative h-8 w-36 hidden dark:block">
+            <Image
+              src={`${BASE}/logos/amoravida-branca.png`}
+              alt="Amor à Vida Corretora"
+              fill
+              className="object-contain object-left"
+            />
+          </div>
+        </div>
+      </div>
+
       {/* ── Introdução ── */}
       <div className={W}>
         <div className="text-center pt-6 pb-4">
           <p className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-2">{cliente.operadora}</p>
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white">Confira as informações do seu plano</h1>
           <p className="mt-3 text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm">
-            Selecione seu produto, informe sua idade para ver os valores e escolha seu estado para ver a rede credenciada.
+            Selecione seu produto e informe sua idade para ver os valores. A rede credenciada completa está disponível abaixo.
           </p>
         </div>
       </div>
@@ -116,11 +154,11 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
         <div className={W}>
           <SectionLabel numero="1" texto="Qual é o seu produto?" />
 
-          <div className="grid grid-cols-2 gap-4 mt-5">
+          <div className="grid grid-cols-1 gap-4 mt-5 max-w-sm">
             {produtos.map(p => (
               <button
                 key={p.id}
-                onClick={() => { setProdutoId(p.id); setIdadeStr(''); setEstado(null); setBusca('') }}
+                onClick={() => { setProdutoId(p.id); setIdadeStr('') }}
                 className={`relative rounded-2xl border-2 p-5 text-left transition-all duration-200 focus:outline-none
                   ${produtoId === p.id
                     ? 'border-blue-600 bg-blue-50 dark:bg-blue-950/40 shadow-md'
@@ -133,7 +171,6 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
             ))}
           </div>
 
-          {/* Campo de idade + valor da faixa */}
           <AnimatePresence>
             {produto && (
               <motion.div
@@ -177,14 +214,10 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
                       <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
                         Faixa etária: <strong className="text-gray-700 dark:text-gray-200">{faixaSel.faixa}</strong> · {produto.nome} ({produto.acomodacao})
                       </p>
-                      <div className="grid grid-cols-2 gap-3">
-                        <div className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 px-5 py-4">
-                          <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Mensalidade sem IOF</p>
-                          <p className="text-2xl font-bold text-gray-700 dark:text-gray-300">{faixaSel.semIOF}</p>
-                        </div>
+                      <div className="max-w-xs">
                         <div className="rounded-2xl border-2 border-blue-600 bg-blue-50 dark:bg-blue-950/40 px-5 py-4">
-                          <p className="text-xs text-blue-600 dark:text-blue-400 mb-1 font-medium">Mensalidade com IOF</p>
-                          <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">{faixaSel.comIOF}</p>
+                          <p className="text-xs text-blue-600 dark:text-blue-400 mb-1 font-medium">Mensalidade</p>
+                          <p className="text-2xl font-bold text-blue-700 dark:text-blue-300">{faixaSel.semIOF}</p>
                         </div>
                       </div>
                     </motion.div>
@@ -196,115 +229,97 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
         </div>
       </div>
 
-      {/* ── Passo 2: Estado / Rede ── */}
-      <AnimatePresence>
-        {produto && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }} className={DIV}>
-            <div className={W}>
-              <SectionLabel numero="2" texto="Qual é o seu estado?" />
+      {/* ── Passo 2: Rede Credenciada ── */}
+      <div className={DIV}>
+        <div className={W}>
+          <SectionLabel numero="2" texto="Rede Credenciada" />
 
-              <div className="flex gap-3 mt-5 flex-wrap">
-                {cliente.estados.map(uf => (
-                  <button
-                    key={uf}
-                    onClick={() => { setEstado(uf); setBusca('') }}
-                    className={`px-6 py-2.5 rounded-xl font-semibold text-sm border-2 transition-all duration-200
-                      ${estado === uf
-                        ? 'border-blue-600 bg-blue-600 text-white shadow'
-                        : 'border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-300 hover:border-blue-400'}`}
-                  >
-                    {uf}
-                  </button>
-                ))}
-              </div>
+          <div className="relative mt-5 mb-6">
+            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Buscar por nome ou cidade…"
+              value={busca}
+              onChange={e => setBusca(e.target.value)}
+              className="pl-9 pr-4 py-2.5 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-80"
+            />
+          </div>
 
-              <AnimatePresence>
-                {estado && (
-                  <motion.div
-                    key={estado}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="mt-6"
-                  >
-                    {/* legenda dos tipos */}
-                    <div className="flex flex-wrap gap-2 mb-4">
-                      {Object.entries(TIPO_INFO).map(([cod, info]) => (
-                        <span key={cod} className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold ${info.cor}`}>
-                          <span className="font-bold">{cod}</span>
-                          <span className="opacity-70">= {info.label}</span>
-                        </span>
-                      ))}
+          {/* legenda dos tipos */}
+          <div className="flex flex-wrap gap-2 mb-6">
+            {Object.entries(TIPO_INFO).map(([cod, info]) => (
+              <span key={cod} className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold ${info.cor}`}>
+                <span className="font-bold">{cod}</span>
+                <span className="opacity-70">= {info.label}</span>
+              </span>
+            ))}
+          </div>
+
+          <div className="space-y-8">
+            {estados.map(uf => {
+              const lista = redesFiltradas.filter(h => h.estado === uf)
+              if (busca && lista.length === 0) return null
+              const total = hospitais.filter(h => h.estado === uf).length
+              return (
+                <div key={uf}>
+                  <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
+                    <div>
+                      <span className="font-bold text-gray-900 dark:text-white text-base">{uf}</span>
+                      <span className="ml-2 text-xs text-gray-400">
+                        {busca ? `${lista.length} de ${total}` : `${total}`} estabelecimentos
+                      </span>
                     </div>
-
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-                      <p className="text-sm text-gray-500 dark:text-gray-400 flex-1">
-                        Rede credenciada — <strong className="text-gray-700 dark:text-gray-200">{estado}</strong>
-                        <span className="ml-2 text-gray-400">({hospitais.filter(h => h.estado === estado).length} estabelecimentos)</span>
-                      </p>
-                      <div className="relative">
-                        <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="text"
-                          placeholder="Buscar por nome ou cidade…"
-                          value={busca}
-                          onChange={e => setBusca(e.target.value)}
-                          className="pl-9 pr-4 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-64"
-                        />
-                      </div>
-                    </div>
-
-                    {redesFiltradas.length === 0 ? (
-                      <p className="text-sm text-gray-400 py-4 text-center">Nenhum resultado encontrado.</p>
-                    ) : (
-                      <div className="grid gap-2 max-h-[480px] overflow-y-auto pr-1">
-                        {redesFiltradas.map((h, i) => (
-                          <div
-                            key={`${h.nome}-${h.cidade}-${i}`}
-                            className="flex items-start gap-3 px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800"
-                          >
-                            <Building2 size={16} className="text-blue-500 shrink-0 mt-0.5" />
-                            <div className="min-w-0 flex-1">
-                              <div className="font-medium text-sm text-gray-900 dark:text-white">{h.nome}</div>
-                              <div className="flex items-center gap-1 mt-0.5 text-xs text-gray-400">
-                                <MapPin size={11} />
-                                {h.cidade}
-                              </div>
-                              {/* badges de atendimento */}
-                              {h.tipos && h.tipos.length > 0 && (
-                                <div className="flex flex-wrap gap-1.5 mt-2">
-                                  {h.tipos.map(t => {
-                                    const info = TIPO_INFO[t]
-                                    return info ? (
-                                      <span
-                                        key={t}
-                                        title={info.label}
-                                        className={`px-2 py-0.5 rounded-md text-xs font-semibold ${info.cor}`}
-                                      >
-                                        {t}
-                                      </span>
-                                    ) : null
-                                  })}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        ))}
-                      </div>
+                    {REDES_PDF[uf] && (
+                      <a
+                        href={REDES_PDF[uf]}
+                        download
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition-colors shadow-sm"
+                      >
+                        <Download size={13} />
+                        Baixar PDF — {uf}
+                      </a>
                     )}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                  </div>
+                  <div className="grid gap-2 max-h-[400px] overflow-y-auto pr-1">
+                    {lista.map((h, i) => (
+                      <div
+                        key={`${h.nome}-${h.cidade}-${i}`}
+                        className="flex items-start gap-3 px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800"
+                      >
+                        <Building2 size={16} className="text-blue-500 shrink-0 mt-0.5" />
+                        <div className="min-w-0 flex-1">
+                          <div className="font-medium text-sm text-gray-900 dark:text-white">{h.nome}</div>
+                          <div className="flex items-center gap-1 mt-0.5 text-xs text-gray-400">
+                            <MapPin size={11} />
+                            {h.cidade}
+                          </div>
+                          {h.tipos && h.tipos.length > 0 && (
+                            <div className="flex flex-wrap gap-1.5 mt-2">
+                              {h.tipos.map(t => {
+                                const info = TIPO_INFO[t]
+                                return info ? (
+                                  <span key={t} title={info.label} className={`px-2 py-0.5 rounded-md text-xs font-semibold ${info.cor}`}>
+                                    {t}
+                                  </span>
+                                ) : null
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      </div>
 
       {/* ── Coparticipação ── */}
       <AnimatePresence>
         {produto && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }} className={DIV}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }} className={DIV}>
             <div className={W}>
               <SectionLabel numero="3" texto="Coparticipação" />
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-5">Valores cobrados por utilização de serviços, além da mensalidade.</p>
@@ -334,7 +349,7 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
       {/* ── Reembolso ── */}
       <AnimatePresence>
         {produto && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.2 }} className={DIV}>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.15 }} className={DIV}>
             <div className={W}>
               <SectionLabel numero="4" texto="Reembolso" />
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-5">Valores para atendimentos fora da rede credenciada.</p>

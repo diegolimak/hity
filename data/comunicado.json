@@ -2,11 +2,10 @@
   "titulo": "Comunicado Importante",
   "paragrafos": [
     "Informamos que a empresa realizará a transição do atual plano de saúde Amil para o Bradesco Saúde.",
-    "A partir de 12/08/2026, o novo plano de saúde Bradesco Saúde estará ativo para todos os beneficiários.",
     "Para garantir uma transição tranquila e sem interrupção na assistência médica, o plano Amil permanecerá ativo até o dia 17/08/2026."
   ],
   "destaque": [
-    { "label": "Novo plano ativo a partir de", "data": "12/08/2026", "cor": "blue" },
-    { "label": "Plano Amil encerra em",        "data": "17/08/2026", "cor": "amber" }
+    { "label": "O novo plano da Bradesco ativa em", "data": "12/08/2026", "cor": "blue" },
+    { "label": "Plano Amil encerra em",             "data": "17/08/2026", "cor": "amber" }
   ]
 }
