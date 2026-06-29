@@ -1,9 +1,9 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import Image from 'next/image'
-import { Phone, MessageCircle, Search, Building2, MapPin, AlertCircle, CheckCircle2, AlertTriangle, User, Download } from 'lucide-react'
+import { Phone, MessageCircle, AlertCircle, CheckCircle2, AlertTriangle, User, Download } from 'lucide-react'
 import type { Cliente, Produto, FaixaPreco, Coparticipacao, Reembolso, Hospital, Comunicado } from '@/types'
 
 interface Props {
@@ -31,13 +31,6 @@ const REDES_PDF: Record<string, string> = {
   MG: `${BASE}/documentos/BRADESCO - MG - REDE CREDENCIADA.pdf`,
 }
 
-const TIPO_INFO: Record<string, { label: string; cor: string }> = {
-  'H':    { label: 'Hospital',       cor: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300' },
-  'P.S':  { label: 'Pronto-Socorro', cor: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300' },
-  'M':    { label: 'Maternidade',    cor: 'bg-pink-100 text-pink-800 dark:bg-pink-900/50 dark:text-pink-300' },
-  'A':    { label: 'Ambulatório',    cor: 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300' },
-  'HDIA': { label: 'Hospital Dia',   cor: 'bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300' },
-}
 
 function getFaixaPorIdade(idade: number, faixas: FaixaPreco[]): FaixaPreco | null {
   const limites = [[0,18],[19,23],[24,28],[29,33],[34,38],[39,43],[44,48],[49,53],[54,58],[59,999]]
@@ -51,18 +44,11 @@ const DIV = 'border-t border-gray-200 dark:border-gray-800'
 export default function PortalConferencia({ cliente, comunicado, produtos, coparticipacao, reembolso, hospitais }: Props) {
   const [produtoId, setProdutoId] = useState<string | null>(null)
   const [idadeStr, setIdadeStr]   = useState('')
-  const [busca, setBusca]         = useState('')
   const [fotoOk, setFotoOk]       = useState(false)
 
   const produto  = produtos.find(p => p.id === produtoId) ?? null
   const idadeNum = parseInt(idadeStr, 10)
   const faixaSel = produto && !isNaN(idadeNum) && idadeNum >= 0 ? getFaixaPorIdade(idadeNum, produto.faixas) : null
-
-  const redesFiltradas = useMemo(() => {
-    const b = busca.toLowerCase()
-    if (!b) return hospitais
-    return hospitais.filter(h => h.nome.toLowerCase().includes(b) || h.cidade.toLowerCase().includes(b))
-  }, [hospitais, busca])
 
   const estados = cliente.estados as string[]
 
@@ -233,82 +219,33 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
       <div className={DIV}>
         <div className={W}>
           <SectionLabel numero="2" texto="Rede Credenciada" />
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-6">
+            Baixe o PDF com a lista completa de hospitais, clínicas e laboratórios credenciados por estado.
+          </p>
 
-          <div className="relative mt-5 mb-6">
-            <Search size={15} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Buscar por nome ou cidade…"
-              value={busca}
-              onChange={e => setBusca(e.target.value)}
-              className="pl-9 pr-4 py-2.5 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-80"
-            />
-          </div>
-
-          {/* legenda dos tipos */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {Object.entries(TIPO_INFO).map(([cod, info]) => (
-              <span key={cod} className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-semibold ${info.cor}`}>
-                <span className="font-bold">{cod}</span>
-                <span className="opacity-70">= {info.label}</span>
-              </span>
-            ))}
-          </div>
-
-          <div className="space-y-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {estados.map(uf => {
-              const lista = redesFiltradas.filter(h => h.estado === uf)
-              if (busca && lista.length === 0) return null
               const total = hospitais.filter(h => h.estado === uf).length
               return (
-                <div key={uf}>
-                  <div className="flex items-center justify-between mb-3 gap-3 flex-wrap">
-                    <div>
-                      <span className="font-bold text-gray-900 dark:text-white text-base">{uf}</span>
-                      <span className="ml-2 text-xs text-gray-400">
-                        {busca ? `${lista.length} de ${total}` : `${total}`} estabelecimentos
-                      </span>
-                    </div>
-                    {REDES_PDF[uf] && (
-                      <a
-                        href={REDES_PDF[uf]}
-                        download
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition-colors shadow-sm"
-                      >
-                        <Download size={13} />
-                        Baixar PDF — {uf}
-                      </a>
+                <div key={uf} className="rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 p-5 flex flex-col gap-3">
+                  <div>
+                    <p className="font-bold text-lg text-gray-900 dark:text-white">{uf}</p>
+                    {total > 0 && (
+                      <p className="text-xs text-gray-400 mt-0.5">{total} estabelecimentos</p>
                     )}
                   </div>
-                  <div className="grid gap-2 max-h-[400px] overflow-y-auto pr-1">
-                    {lista.map((h, i) => (
-                      <div
-                        key={`${h.nome}-${h.cidade}-${i}`}
-                        className="flex items-start gap-3 px-4 py-3 rounded-xl bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800"
-                      >
-                        <Building2 size={16} className="text-blue-500 shrink-0 mt-0.5" />
-                        <div className="min-w-0 flex-1">
-                          <div className="font-medium text-sm text-gray-900 dark:text-white">{h.nome}</div>
-                          <div className="flex items-center gap-1 mt-0.5 text-xs text-gray-400">
-                            <MapPin size={11} />
-                            {h.cidade}
-                          </div>
-                          {h.tipos && h.tipos.length > 0 && (
-                            <div className="flex flex-wrap gap-1.5 mt-2">
-                              {h.tipos.map(t => {
-                                const info = TIPO_INFO[t]
-                                return info ? (
-                                  <span key={t} title={info.label} className={`px-2 py-0.5 rounded-md text-xs font-semibold ${info.cor}`}>
-                                    {t}
-                                  </span>
-                                ) : null
-                              })}
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                  {REDES_PDF[uf] ? (
+                    <a
+                      href={REDES_PDF[uf]}
+                      download
+                      className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition-colors shadow-sm mt-auto"
+                    >
+                      <Download size={14} />
+                      Baixar PDF
+                    </a>
+                  ) : (
+                    <span className="text-xs text-gray-400">PDF não disponível</span>
+                  )}
                 </div>
               )
             })}
@@ -322,7 +259,13 @@ export default function PortalConferencia({ cliente, comunicado, produtos, copar
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3, delay: 0.1 }} className={DIV}>
             <div className={W}>
               <SectionLabel numero="3" texto="Coparticipação" />
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 mb-5">Valores cobrados por utilização de serviços, além da mensalidade.</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Valores limitadores cobrados por utilização, além da mensalidade.</p>
+              <div className="flex items-start gap-2.5 px-4 py-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 mt-3 mb-5">
+                <AlertCircle size={15} className="text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                <span className="text-xs text-blue-700 dark:text-blue-300">
+                  Estes são os <strong>valores máximos</strong> de coparticipação. O valor efetivamente cobrado pode ser menor, de acordo com o procedimento realizado — por exemplo, uma consulta ao Pronto-Socorro pode custar menos de R$ 130,00; esse é o teto a ser descontado.
+                </span>
+              </div>
               <div className="overflow-x-auto rounded-2xl border border-gray-200 dark:border-gray-700">
                 <table className="w-full text-sm">
                   <thead>
